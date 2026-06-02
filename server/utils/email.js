@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const sendBookingEmail = async(userEmail,userName,evenTitle) => {
+const sendBookingEmail = async(userEmail,userName,eventTitle) => {
     try{
         const mailOptions = {
             from: process.env.EMAIL_USER,

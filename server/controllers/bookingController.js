@@ -25,7 +25,7 @@ exports.bookEvent = async (req, res) => {
             return res.status(400).json({ error: 'Invalid or expired OTP' });
         }
 
-        const event = await Event.findOne({ eventId });
+        const event = await Event.findById(eventId);
         if (!event) {
             return res.status(400).json({ error: 'Event not found' });
         }
@@ -82,7 +82,7 @@ exports.confirmBooking = async (req, res) => {
         //Send an email on admin confirmation
         await sendBookingEmail(booking.userId.email, booking.userId.name, booking.eventId.title);
 
-        res.join({ message: 'Booking confirmed successfully', booking });
+        res.json({ message: 'Booking confirmed successfully', booking });
     }
     catch(error) {
         res.status(500).json({ message: 'Server Error', error: error.message });
@@ -127,7 +127,7 @@ exports.cancelBooking = async (req, res) => {
                 await event.save();
             }
         }
-        res.join({ message: 'Booking cancelled successfully' });
+        res.json({ message: 'Booking cancelled successfully' });
     }
     catch(error) {
         res.status(500).json({ message: 'Server Error' , error: error.message});

@@ -89,12 +89,12 @@ exports.verifyOtp = async(req,res) => {
         return res.status(400).json({error: 'Invalid or expired OTP'});
     }
 
-    const user = await User.findOneAndUpdate({email}, {isverified: true});
+    const user = await User.findOneAndUpdate({email}, {isVerified: true}, { new: true });
     await OTP.deleteMany({email, action: 'account_verification'});
     res.json(
         {
             message: 'Account verified successfully. You can now log in.',
-            _id: user.id,
+            _id: user._id,
             name: user.name,
             email: user.email,
             role: user.role,
